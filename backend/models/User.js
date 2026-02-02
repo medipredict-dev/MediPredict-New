@@ -21,14 +21,21 @@ const userSchema = mongoose.Schema({
         minlength: 6,
         select: false
     },
-    role: {
-        type: String,
-        enum: ['Player', 'Coach', 'Medical', 'Admin'],
-        default: 'Player'
-    },
+    // Changed from String enum to Array of ObjectIds
+    roles: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Role'
+    }],
     isActive: {
         type: Boolean,
         default: true
+    },
+    // Optional profile info
+    team: {
+        type: String
+    },
+    position: {
+        type: String
     }
 }, {
     timestamps: true

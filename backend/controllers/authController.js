@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Role = require('../models/Role');
 const generateToken = require('../utils/generateToken');
 
 // @desc    Register new user
@@ -8,7 +9,7 @@ const generateToken = require('../utils/generateToken');
 // @access  Public
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
+        const { name, email, password, roleName } = req.body; // Accept roleName optionally, default to Player
 
         if (!name || !email || !password) {
             return res.status(400).json({ message: 'Please add all fields' });
@@ -21,21 +22,32 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
+        // Find role by name (default to 'Player')
+        const roleToAssignName = roleName || 'Player';
+        const roleDoc = await Role.findOne({ name: roleToAssignName });
+
+        if (!roleDoc) {
+            return res.status(400).json({ message: `Role '${roleToAssignName}' not found.` });
+        }
+
         // Create user
         const user = await User.create({
             name,
             email,
             password,
-            role: role || 'Player'
+            roles: [roleDoc._id]
         });
 
         if (user) {
+            // Populate roles for response
+            const populatedUser = await User.findById(user._id).populate('roles');
+
             res.status(201).json({
                 _id: user.id,
                 name: user.name,
                 email: user.email,
-                role: user.role,
-                token: generateToken(user._id, user.role),
+                roles: populatedUser.roles,
+                token: generateToken(user._id),
             });
         } else {
             res.status(400).json({ message: 'Invalid user data' });
@@ -53,15 +65,15 @@ const loginUser = async (req, res) => {
         const { email, password } = req.body;
 
         // Check for user email
-        const user = await User.findOne({ email }).select('+password');
+        const user = await User.findOne({ email }).select('+password').populate('roles');
 
         if (user && (await user.matchPassword(password))) {
             res.json({
                 _id: user.id,
                 name: user.name,
                 email: user.email,
-                role: user.role,
-                token: generateToken(user._id, user.role),
+                roles: user.roles,
+                token: generateToken(user._id),
             });
         } else {
             res.status(400).json({ message: 'Invalid credentials' });
@@ -76,13 +88,15 @@ const loginUser = async (req, res) => {
 // @access  Private
 const getMe = async (req, res) => {
     // req.user is already set by the middleware
-    const { _id, name, email, role, createdAt } = req.user;
+    const { _id, name, email, roles, createdAt, team, position } = req.user;
 
     res.status(200).json({
         id: _id,
         name,
         email,
-        role,
+        roles,
+        team,
+        position,
         createdAt
     });
 };

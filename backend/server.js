@@ -18,8 +18,10 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/roles', require('./routes/roleRoutes'));
 
-// Root route (optional, for testing)
+// Root route
 app.get('/', (req, res) => {
     res.send('RecoverAI API is running...');
 });

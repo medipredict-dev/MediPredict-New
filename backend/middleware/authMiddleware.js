@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Role = require('../models/Role'); // Ensure Role is loaded
 
 const protect = async (req, res, next) => {
     let token;
@@ -15,8 +16,10 @@ const protect = async (req, res, next) => {
             // Verify token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            // Get user from the token
-            req.user = await User.findById(decoded.id).select('-password');
+            // Get user from the token and populate roles
+            req.user = await User.findById(decoded.id)
+                .select('-password')
+                .populate('roles');
 
             if (!req.user) {
                 return res.status(401).json({ message: 'Not authorized, user not found' });
@@ -34,11 +37,17 @@ const protect = async (req, res, next) => {
     }
 };
 
-const restrictTo = (...roles) => {
+const restrictTo = (...allowedRoles) => {
     return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
+        // req.user.roles is an array of objects populated from DB
+        const userRoleNames = req.user.roles.map(role => role.name);
+
+        // Check if user has ANY of the allowed roles
+        const hasRole = userRoleNames.some(roleName => allowedRoles.includes(roleName));
+
+        if (!hasRole) {
             return res.status(403).json({
-                message: `User role ${req.user.role} is not authorized to access this route`
+                message: `User role(s) [${userRoleNames.join(', ')}] not authorized to access this route. Required: ${allowedRoles.join(', ')}`
             });
         }
         next();
