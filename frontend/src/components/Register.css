@@ -1,0 +1,320 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   REGISTER PAGE LAYOUT
+   ============================================ */
+.register-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ============================================
+   LEFT PANEL - HOLOGRAPHIC
+   ============================================ */
+.register-left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2.5rem;
+    overflow: hidden;
+    background: linear-gradient(135deg,
+            hsl(170, 60%, 35%) 0%,
+            hsl(165, 55%, 40%) 20%,
+            hsl(160, 50%, 45%) 40%,
+            hsl(175, 45%, 38%) 60%,
+            hsl(180, 50%, 32%) 80%,
+            hsl(168, 55%, 28%) 100%);
+}
+
+.register-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, hsla(160, 80%, 60%, 0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, hsla(180, 70%, 50%, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, hsla(170, 60%, 40%, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.register-left::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(160deg, transparent 40%, hsla(160, 80%, 60%, 0.08) 50%, transparent 60%),
+        linear-gradient(200deg, transparent 30%, hsla(180, 70%, 70%, 0.06) 45%, transparent 55%);
+    pointer-events: none;
+}
+
+.register-left-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.register-left-logo .brand-icon {
+    color: hsl(160, 84%, 85%);
+}
+
+.register-left-logo .brand-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: hsl(160, 84%, 92%);
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.register-left-logo .brand-highlight {
+    color: hsl(160, 100%, 80%);
+}
+
+.register-left-content {
+    position: relative;
+    z-index: 1;
+}
+
+.register-left-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 1rem;
+}
+
+.register-left-title .highlight {
+    color: hsl(160, 100%, 75%);
+}
+
+.register-left-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: hsla(160, 30%, 90%, 0.8);
+    max-width: 380px;
+}
+
+/* ============================================
+   RIGHT PANEL - DARK FORM
+   ============================================ */
+.register-right {
+    background: hsl(220, 20%, 7%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.register-form-wrapper {
+    width: 100%;
+    max-width: 420px;
+}
+
+.register-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: hsl(160, 84%, 39%);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: opacity 0.2s;
+}
+
+.register-back-link:hover {
+    opacity: 0.8;
+}
+
+.register-heading {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: hsl(210, 20%, 92%);
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+.register-subtext {
+    font-size: 0.9rem;
+    color: hsl(215, 15%, 55%);
+    margin-bottom: 2rem;
+}
+
+.register-subtext a {
+    color: hsl(160, 84%, 39%);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.register-subtext a:hover {
+    text-decoration: underline;
+}
+
+/* Form */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.register-form-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 1rem;
+}
+
+.register-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.register-field label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: hsl(210, 20%, 75%);
+}
+
+.register-field input,
+.register-field select {
+    background: hsl(220, 16%, 14%);
+    border: 1px solid hsl(220, 14%, 22%);
+    border-radius: 0.6rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: hsl(210, 20%, 92%);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.register-field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237a8599' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+.register-field input::placeholder {
+    color: hsl(215, 15%, 40%);
+}
+
+.register-field input:focus,
+.register-field select:focus {
+    border-color: hsl(160, 84%, 39%);
+    box-shadow: 0 0 0 2px hsla(160, 84%, 39%, 0.12);
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 2.75rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: hsl(215, 15%, 55%);
+    cursor: pointer;
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.password-toggle:hover {
+    color: hsl(210, 20%, 80%);
+}
+
+/* Error message */
+.register-error {
+    background: hsla(0, 70%, 50%, 0.12);
+    border: 1px solid hsla(0, 70%, 50%, 0.25);
+    border-radius: 0.5rem;
+    padding: 0.6rem 1rem;
+    color: hsl(0, 90%, 70%);
+    font-size: 0.85rem;
+}
+
+/* Submit button */
+.register-submit {
+    background: hsl(160, 84%, 39%);
+    border: none;
+    color: hsl(220, 20%, 7%);
+    padding: 0.85rem;
+    border-radius: 0.6rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px -5px hsla(160, 84%, 39%, 0.3);
+    margin-top: 0.25rem;
+}
+
+.register-submit:hover {
+    background: hsl(160, 84%, 35%);
+    transform: translateY(-1px);
+    box-shadow: 0 0 25px -5px hsla(160, 84%, 39%, 0.5);
+}
+
+/* Terms */
+.register-terms {
+    font-size: 0.8rem;
+    color: hsl(215, 15%, 55%);
+    text-align: center;
+    margin-top: 0.25rem;
+    line-height: 1.5;
+}
+
+.register-terms a {
+    color: hsl(160, 84%, 39%);
+    text-decoration: none;
+}
+
+.register-terms a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+    .register-page {
+        grid-template-columns: 1fr;
+    }
+
+    .register-left {
+        min-height: 280px;
+        padding: 2rem;
+    }
+
+    .register-left-title {
+        font-size: 1.75rem;
+    }
+
+    .register-right {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-form-row {
+        grid-template-columns: 1fr;
+    }
+}
