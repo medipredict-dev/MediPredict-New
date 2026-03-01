@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Activity, ArrowLeft, Save, AlertCircle, Loader2 } from 'lucide-react';
+import './CompleteProfile.css';
 
 const CompleteProfile = () => {
     const navigate = useNavigate();
@@ -16,16 +18,10 @@ const CompleteProfile = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // Check if user should be here
         const userStr = localStorage.getItem('user');
-        if (!userStr) {
-            navigate('/login');
-            return;
-        }
+        if (!userStr) { navigate('/login'); return; }
 
         const user = JSON.parse(userStr);
-
-        // Check if user is a player (using new module 2 structure or module 1 backward compat)
         const isPlayer = Array.isArray(user.roles)
             ? user.roles.some(r => r.name === 'Player' || r === 'Player')
             : user.role === 'Player';
@@ -46,33 +42,22 @@ const CompleteProfile = () => {
         setError('');
 
         const userStr = localStorage.getItem('user');
-        if (!userStr) {
-            navigate('/login');
-            return;
-        }
+        if (!userStr) { navigate('/login'); return; }
         const user = JSON.parse(userStr);
 
         try {
-            // Split past injuries by comma if it's not empty, otherwise empty array
             const injuriesArray = formData.pastInjuries
                 ? formData.pastInjuries.split(',').map(i => i.trim())
                 : [];
 
-            const payload = {
-                ...formData,
-                pastInjuries: injuriesArray
-            };
+            await axios.post(
+                'http://localhost:5000/api/player-profile',
+                { ...formData, pastInjuries: injuriesArray },
+                { headers: { Authorization: `Bearer ${user.token}` } }
+            );
 
-            await axios.post('http://localhost:5000/api/player-profile', payload, {
-                headers: {
-                    Authorization: `Bearer ${user.token}`
-                }
-            });
-
-            // Update local storage to reflect profile is created (optional but good UI practice)
             const updatedUser = { ...user, needsProfile: false };
             localStorage.setItem('user', JSON.stringify(updatedUser));
-
             navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to create profile. Please try again.');
@@ -82,183 +67,147 @@ const CompleteProfile = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <h2>Complete Your Player Profile</h2>
-            <p style={styles.subtitle}>We need this information to generate accurate injury predictions.</p>
-
-            {error && <p style={styles.error}>{error}</p>}
-
-            <form onSubmit={handleSubmit} style={styles.form}>
-                <div style={styles.inputGroup}>
-                    <label>Age <span style={styles.required}>*</span></label>
-                    <input
-                        type="number"
-                        name="age"
-                        value={formData.age}
-                        onChange={handleChange}
-                        required
-                        min="10"
-                        style={styles.input}
-                    />
+        <div className="cp-page">
+            {/* Navbar */}
+            <nav className="cp-nav">
+                <div className="cp-nav-brand">
+                    <Activity size={22} className="cp-brand-icon" />
+                    <span className="cp-brand-text">
+                        Medi<span className="cp-brand-highlight">Predict</span>
+                    </span>
                 </div>
+                <Link to="/dashboard" className="cp-back-link">
+                    <ArrowLeft size={15} /> Back to Dashboard
+                </Link>
+            </nav>
 
-                <div style={styles.inputGroup}>
-                    <label>Playing Role <span style={styles.required}>*</span></label>
-                    <select
-                        name="playingRole"
-                        value={formData.playingRole}
-                        onChange={handleChange}
-                        style={styles.select}
-                    >
-                        <option value="Batsman">Batsman</option>
-                        <option value="Bowler">Bowler</option>
-                        <option value="All-rounder">All-rounder</option>
-                        <option value="Wicketkeeper">Wicketkeeper</option>
-                        <option value="Forward">Forward</option>
-                        <option value="Midfielder">Midfielder</option>
-                        <option value="Defender">Defender</option>
-                    </select>
+            <main className="cp-main">
+                <div className="cp-card">
+                    {/* Header */}
+                    <p className="cp-card-eyebrow">Player Onboarding</p>
+                    <h1 className="cp-card-title">Complete Your Profile</h1>
+                    <p className="cp-card-subtitle">
+                        We need this information to generate accurate injury predictions
+                        and personalised recovery timelines.
+                    </p>
+
+                    {/* Error */}
+                    {error && (
+                        <div className="cp-error">
+                            <AlertCircle size={15} />
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="cp-form">
+
+                        {/* ── Core Info ── */}
+                        <div className="cp-row">
+                            <div className="cp-field">
+                                <label>Age <span>*</span></label>
+                                <input
+                                    type="number"
+                                    name="age"
+                                    className="cp-input"
+                                    value={formData.age}
+                                    onChange={handleChange}
+                                    placeholder="e.g. 24"
+                                    min="10"
+                                    required
+                                />
+                            </div>
+                            <div className="cp-field">
+                                <label>Experience (Years) <span>*</span></label>
+                                <input
+                                    type="number"
+                                    name="experienceYears"
+                                    className="cp-input"
+                                    value={formData.experienceYears}
+                                    onChange={handleChange}
+                                    placeholder="e.g. 5"
+                                    min="0"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="cp-field">
+                            <label>Playing Role <span>*</span></label>
+                            <select
+                                name="playingRole"
+                                className="cp-select"
+                                value={formData.playingRole}
+                                onChange={handleChange}
+                            >
+                                <option value="Batsman">Batsman</option>
+                                <option value="Bowler">Bowler</option>
+                                <option value="All-rounder">All-rounder</option>
+                                <option value="Wicketkeeper">Wicketkeeper</option>
+                                <option value="Forward">Forward</option>
+                                <option value="Midfielder">Midfielder</option>
+                                <option value="Defender">Defender</option>
+                            </select>
+                        </div>
+
+                        {/* ── Optional Physical Stats ── */}
+                        <div className="cp-divider">Optional</div>
+
+                        <div className="cp-row">
+                            <div className="cp-field">
+                                <label>Height (cm)</label>
+                                <input
+                                    type="number"
+                                    name="height"
+                                    className="cp-input"
+                                    value={formData.height}
+                                    onChange={handleChange}
+                                    placeholder="e.g. 180"
+                                />
+                            </div>
+                            <div className="cp-field">
+                                <label>Weight (kg)</label>
+                                <input
+                                    type="number"
+                                    name="weight"
+                                    className="cp-input"
+                                    value={formData.weight}
+                                    onChange={handleChange}
+                                    placeholder="e.g. 75"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="cp-field">
+                            <label>Past Injuries</label>
+                            <textarea
+                                name="pastInjuries"
+                                className="cp-textarea"
+                                value={formData.pastInjuries}
+                                onChange={handleChange}
+                                placeholder="Comma-separated, e.g. ACL tear 2023, Ankle sprain 2024"
+                                rows="3"
+                            />
+                            <span className="cp-hint">Separate multiple injuries with a comma.</span>
+                        </div>
+
+                        <button type="submit" className="cp-submit" disabled={loading}>
+                            {loading ? (
+                                <>
+                                    <span className="cp-btn-spinner"></span>
+                                    Saving…
+                                </>
+                            ) : (
+                                <>
+                                    <Save size={17} />
+                                    Save Profile
+                                </>
+                            )}
+                        </button>
+                    </form>
                 </div>
-
-                <div style={styles.inputGroup}>
-                    <label>Experience (Years) <span style={styles.required}>*</span></label>
-                    <input
-                        type="number"
-                        name="experienceYears"
-                        value={formData.experienceYears}
-                        onChange={handleChange}
-                        required
-                        min="0"
-                        style={styles.input}
-                    />
-                </div>
-
-                <div style={styles.row}>
-                    <div style={styles.halfInput}>
-                        <label>Height (cm)</label>
-                        <input
-                            type="number"
-                            name="height"
-                            value={formData.height}
-                            onChange={handleChange}
-                            placeholder="e.g. 180"
-                            style={styles.input}
-                        />
-                    </div>
-                    <div style={styles.halfInput}>
-                        <label>Weight (kg)</label>
-                        <input
-                            type="number"
-                            name="weight"
-                            value={formData.weight}
-                            onChange={handleChange}
-                            placeholder="e.g. 75"
-                            style={styles.input}
-                        />
-                    </div>
-                </div>
-
-                <div style={styles.inputGroup}>
-                    <label>Past Injuries (comma separated)</label>
-                    <textarea
-                        name="pastInjuries"
-                        value={formData.pastInjuries}
-                        onChange={handleChange}
-                        placeholder="e.g. ACL tear 2023, Ankle sprain 2024"
-                        style={styles.textarea}
-                        rows="3"
-                    />
-                </div>
-
-                <button type="submit" style={styles.button} disabled={loading}>
-                    {loading ? 'Saving...' : 'Save Profile'}
-                </button>
-            </form>
+            </main>
         </div>
     );
-};
-
-const styles = {
-    container: {
-        maxWidth: '500px',
-        margin: '40px auto',
-        padding: '30px',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-        borderRadius: '8px',
-        backgroundColor: '#fff',
-        fontFamily: 'Arial, sans-serif'
-    },
-    subtitle: {
-        color: '#666',
-        marginBottom: '20px',
-        fontSize: '0.9rem'
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '15px'
-    },
-    inputGroup: {
-        display: 'flex',
-        flexDirection: 'column',
-        textAlign: 'left'
-    },
-    row: {
-        display: 'flex',
-        gap: '15px'
-    },
-    halfInput: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        textAlign: 'left'
-    },
-    label: {
-        marginBottom: '5px',
-        fontWeight: 'bold',
-        fontSize: '0.9rem'
-    },
-    required: {
-        color: 'red'
-    },
-    input: {
-        padding: '10px',
-        borderRadius: '4px',
-        border: '1px solid #ddd',
-        fontSize: '1rem'
-    },
-    select: {
-        padding: '10px',
-        borderRadius: '4px',
-        border: '1px solid #ddd',
-        fontSize: '1rem',
-        backgroundColor: 'white'
-    },
-    textarea: {
-        padding: '10px',
-        borderRadius: '4px',
-        border: '1px solid #ddd',
-        fontSize: '1rem',
-        resize: 'vertical'
-    },
-    button: {
-        padding: '12px',
-        backgroundColor: '#28a745',
-        color: 'white',
-        border: 'none',
-        borderRadius: '4px',
-        fontSize: '1rem',
-        cursor: 'pointer',
-        marginTop: '10px'
-    },
-    error: {
-        color: '#dc3545',
-        marginBottom: '15px',
-        padding: '10px',
-        backgroundColor: '#ffe6e6',
-        borderRadius: '4px',
-        textAlign: 'center'
-    }
 };
 
 export default CompleteProfile;
