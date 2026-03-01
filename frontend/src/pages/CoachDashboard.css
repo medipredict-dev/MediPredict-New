@@ -1,0 +1,703 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   CSS VARIABLES — exact match with MainPage.css
+   ============================================ */
+:root {
+    --background: hsl(220, 20%, 7%);
+    --foreground: hsl(210, 20%, 92%);
+    --card: hsl(220, 18%, 10%);
+    --surface: hsl(220, 16%, 12%);
+    --secondary: hsl(220, 16%, 14%);
+    --primary: hsl(160, 84%, 39%);
+    --primary-fg: hsl(220, 20%, 7%);
+    --accent: hsl(174, 62%, 47%);
+    --muted: hsl(220, 14%, 16%);
+    --muted-fg: hsl(215, 15%, 55%);
+    --border: hsl(220, 14%, 18%);
+    --danger: hsl(0, 72%, 51%);
+    --warning: hsl(38, 92%, 50%);
+    --radius: 0.75rem;
+}
+
+/* ============================================
+   GLOBAL / PAGE SHELL
+   ============================================ */
+.cd-page {
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.cd-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: hsla(220, 16%, 12%, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.cd-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cd-brand-icon {
+    color: var(--primary);
+}
+
+.cd-brand-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--foreground);
+}
+
+.cd-brand-highlight {
+    color: var(--primary);
+}
+
+.cd-nav-badge {
+    padding: 0.3rem 0.9rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: hsla(160, 84%, 39%, 0.12);
+    color: var(--primary);
+    border: 1px solid hsla(160, 84%, 39%, 0.25);
+    letter-spacing: 0.04em;
+}
+
+.cd-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.cd-nav-welcome {
+    font-size: 0.875rem;
+    color: var(--muted-fg);
+}
+
+.cd-nav-welcome strong {
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+.cd-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--muted-fg);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+}
+
+.cd-logout-btn:hover {
+    border-color: hsla(0, 70%, 55%, 0.5);
+    color: hsl(0, 90%, 70%);
+    background: hsla(0, 70%, 50%, 0.08);
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.cd-main {
+    padding: 2.5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+.cd-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.cd-header-text {
+    flex: 1;
+}
+
+.cd-section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--primary);
+    text-transform: uppercase;
+    margin: 0 0 0.3rem 0;
+}
+
+.cd-page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0;
+}
+
+.cd-page-subtitle {
+    font-size: 0.9rem;
+    color: var(--muted-fg);
+    margin: 0.3rem 0 0 0;
+    line-height: 1.5;
+}
+
+.cd-header-img {
+    width: 110px;
+    height: auto;
+    opacity: 0.9;
+    filter: drop-shadow(0 4px 12px hsla(160, 84%, 39%, 0.15));
+}
+
+/* ============================================
+   ERROR BANNER
+   ============================================ */
+.cd-error {
+    background: hsla(0, 72%, 51%, 0.1);
+    border: 1px solid hsla(0, 72%, 51%, 0.3);
+    color: hsl(0, 90%, 70%);
+    border-radius: var(--radius);
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+/* ============================================
+   STATS GRID
+   ============================================ */
+.cd-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.cd-stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cd-stat-card:hover {
+    border-color: hsla(160, 84%, 39%, 0.3);
+    box-shadow: 0 4px 20px -8px hsla(160, 84%, 39%, 0.15);
+}
+
+.cd-stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: hsla(160, 84%, 39%, 0.1);
+    border: 1px solid hsla(160, 84%, 39%, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.cd-stat-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--foreground);
+    line-height: 1;
+}
+
+.cd-stat-lbl {
+    font-size: 0.8rem;
+    color: var(--muted-fg);
+    margin-top: 0.25rem;
+}
+
+/* ============================================
+   SECTION HEADINGS
+   ============================================ */
+.cd-section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin: 0 0 1rem 0;
+}
+
+/* ============================================
+   CARD / TABLE CONTAINER
+   ============================================ */
+.cd-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+.cd-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.cd-table thead tr {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.cd-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    color: var(--muted-fg);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.cd-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--foreground);
+}
+
+.cd-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.cd-table tbody tr:hover {
+    background: hsla(220, 16%, 15%, 0.6);
+}
+
+/* badges */
+.cd-badge {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.cd-badge-green {
+    background: hsla(160, 84%, 39%, 0.12);
+    color: var(--primary);
+    border: 1px solid hsla(160, 84%, 39%, 0.3);
+}
+
+.cd-badge-yellow {
+    background: hsla(38, 92%, 50%, 0.12);
+    color: hsl(38, 92%, 65%);
+    border: 1px solid hsla(38, 92%, 50%, 0.3);
+}
+
+.cd-badge-red {
+    background: hsla(0, 72%, 51%, 0.12);
+    color: hsl(0, 90%, 70%);
+    border: 1px solid hsla(0, 72%, 51%, 0.3);
+}
+
+.cd-badge-teal {
+    background: hsla(174, 62%, 47%, 0.12);
+    color: hsl(174, 62%, 60%);
+    border: 1px solid hsla(174, 62%, 47%, 0.3);
+}
+
+/* ============================================
+   TRAINING LOAD SECTION
+   ============================================ */
+.cd-tl-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.cd-tl-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 1.5rem 0;
+}
+
+.cd-tl-body {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+/* Form column */
+.cd-tl-form-col {
+    flex: 1 1 340px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+}
+
+.cd-tl-form-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin: 0 0 1rem 0;
+}
+
+.cd-tl-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted-fg);
+    margin: 1.1rem 0 0.35rem 0;
+}
+
+.cd-tl-label:first-of-type {
+    margin-top: 0;
+}
+
+.cd-tl-input,
+.cd-tl-select,
+.cd-tl-textarea {
+    width: 100%;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.7rem 0.9rem;
+    color: var(--foreground);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.cd-tl-input:focus,
+.cd-tl-select:focus,
+.cd-tl-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px hsla(160, 84%, 39%, 0.12);
+}
+
+.cd-tl-input::placeholder,
+.cd-tl-textarea::placeholder {
+    color: var(--muted-fg);
+}
+
+.cd-tl-input[type="range"] {
+    padding: 0;
+    height: 6px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.cd-tl-row {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.cd-tl-row>div {
+    flex: 1;
+}
+
+.cd-tl-btns {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1.25rem;
+}
+
+.cd-btn-primary {
+    flex: 1;
+    padding: 0.75rem;
+    background: var(--primary);
+    color: var(--primary-fg);
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px -5px hsla(160, 84%, 39%, 0.3);
+}
+
+.cd-btn-primary:hover {
+    background: hsl(160, 84%, 35%);
+    transform: translateY(-1px);
+    box-shadow: 0 0 25px -5px hsla(160, 84%, 39%, 0.5);
+}
+
+.cd-btn-secondary {
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    color: var(--muted-fg);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+}
+
+.cd-btn-secondary:hover {
+    border-color: var(--muted-fg);
+    color: var(--foreground);
+}
+
+/* Table column */
+.cd-tl-table-col {
+    flex: 2 1 480px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    overflow-x: auto;
+}
+
+.cd-tl-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.cd-tl-table-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--foreground);
+    margin: 0;
+}
+
+.cd-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.cd-filter-date {
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    color: var(--foreground);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+}
+
+.cd-filter-sep {
+    color: var(--muted-fg);
+    font-size: 0.85rem;
+}
+
+.cd-btn-filter {
+    padding: 0.4rem 0.9rem;
+    background: var(--primary);
+    color: var(--primary-fg);
+    border: none;
+    border-radius: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+}
+
+.cd-btn-filter:hover {
+    background: hsl(160, 84%, 35%);
+}
+
+.cd-tl-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 0.5rem;
+}
+
+.cd-tl-table th {
+    text-align: left;
+    padding: 0.75rem 0.75rem;
+    border-bottom: 2px solid var(--border);
+    color: var(--muted-fg);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.cd-tl-table td {
+    padding: 0.85rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--foreground);
+}
+
+.cd-tl-table tr:last-child td {
+    border-bottom: none;
+}
+
+.cd-tl-table tr:hover {
+    background: hsla(220, 16%, 15%, 0.8);
+}
+
+.cd-tl-empty {
+    text-align: center;
+    padding: 2.5rem;
+    color: var(--muted-fg);
+}
+
+.cd-intensity {
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.cd-intensity-high {
+    background: hsla(0, 72%, 51%, 0.12);
+    color: hsl(0, 90%, 70%);
+}
+
+.cd-intensity-medium {
+    background: hsla(38, 92%, 50%, 0.12);
+    color: hsl(38, 92%, 65%);
+}
+
+.cd-intensity-low {
+    background: hsla(160, 84%, 39%, 0.12);
+    color: var(--primary);
+}
+
+.cd-btn-edit,
+.cd-btn-del {
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+}
+
+.cd-btn-edit {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    margin-right: 0.4rem;
+}
+
+.cd-btn-edit:hover {
+    background: hsla(160, 84%, 39%, 0.1);
+}
+
+.cd-btn-del {
+    background: transparent;
+    color: hsl(0, 90%, 70%);
+    border: 1px solid hsla(0, 72%, 51%, 0.5);
+}
+
+.cd-btn-del:hover {
+    background: hsla(0, 72%, 51%, 0.1);
+}
+
+/* ============================================
+   ANIMATE SPINNER
+   ============================================ */
+@keyframes cd-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.cd-loading {
+    min-height: 100vh;
+    background: var(--background);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--muted-fg);
+    font-family: 'Inter', sans-serif;
+}
+
+.cd-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: cd-spin 0.9s linear infinite;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+    .cd-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .cd-main {
+        padding: 1.5rem 1rem;
+    }
+
+    .cd-stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cd-nav {
+        padding: 1rem;
+    }
+
+    .cd-tl-body {
+        flex-direction: column;
+    }
+
+    .cd-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cd-header-img {
+        display: none;
+    }
+}
