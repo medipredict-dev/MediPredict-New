@@ -23,11 +23,20 @@ const PredictionsPage = () => {
 
     const [editId, setEditId] = useState(null);
 
+    // Helper to get auth config from localStorage
+    const getAuthConfig = () => {
+        const storedUser = localStorage.getItem('user');
+        if (!storedUser) return {};
+        const userData = JSON.parse(storedUser);
+        return { headers: { Authorization: `Bearer ${userData.token}` } };
+    };
+
     // Fetch all predictions
     const fetchPlayers = async () => {
         try {
+            const config = getAuthConfig();
             // Uses the medical route to easily fetch all users with the "Player" role
-            const res = await axios.get(`http://localhost:5000/api/medical/players`);
+            const res = await axios.get(`http://localhost:5000/api/medical/players`, config);
             setPlayers(res.data);
 
             // Default select the first player if no form data is set
@@ -41,8 +50,9 @@ const PredictionsPage = () => {
 
     const fetchInjuries = async () => {
         try {
+            const config = getAuthConfig();
             // Fetch the global injuries list
-            const res = await axios.get(`http://localhost:5000/api/medical/injuries`);
+            const res = await axios.get(`http://localhost:5000/api/medical/injuries`, config);
             setInjuries(res.data);
 
             // Default select the first injury

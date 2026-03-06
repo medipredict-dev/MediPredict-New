@@ -49,7 +49,7 @@ const createPrediction = async (req, res) => {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         // We use gemini-1.5-flash as it is fast and ideal for simple JSON extraction tasks. 
         // You can easily swap to gemini-1.5-pro if you need heavier reasoning later.
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
         // --- TASK 4: CONSTRUCT THE PROMPT ---
         const prompt = `You are an expert sports medicine AI specialized in athlete recovery.
