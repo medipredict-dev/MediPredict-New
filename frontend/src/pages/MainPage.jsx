@@ -100,7 +100,7 @@ const MainPage = () => {
                         <a href="#features" onMouseEnter={handleLinkHover}>Features</a>
                         <a href="#how-it-works" onMouseEnter={handleLinkHover}>How It Works</a>
                         <a href="#reports" onMouseEnter={handleLinkHover}>Reports</a>
-                        <a href="#about" onMouseEnter={handleLinkHover}>About Team</a>
+                        <a onClick={() => navigate('/about-team')} onMouseEnter={handleLinkHover} style={{ cursor: 'pointer' }}>About Team</a>
                     </div>
 
                     {/* Auth Buttons */}
@@ -371,7 +371,7 @@ const MainPage = () => {
                         {/* Company Links */}
                         <div className="footer-link-col">
                             <h4 className="footer-col-title">Company</h4>
-                            <a href="#about">About Team</a>
+                            <a onClick={() => navigate('/about-team')} style={{ cursor: 'pointer' }}>About Team</a>
                             <a href="#">Careers</a>
                             <a href="#">Contact</a>
                             <a href="#">Blog</a>
