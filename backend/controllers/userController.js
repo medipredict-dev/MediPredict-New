@@ -142,12 +142,13 @@ const generateToken = (id) => {
     // Local helper or import from utils
     const jwt = require('jsonwebtoken');
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+}
 
-    module.exports = {
-        getUsers,
-        getCoaches,
-        getUserById,
-        updateUser,
-        deleteUser,
-        assignRole
-    };
+module.exports = {
+    getUsers,
+    getCoaches,
+    getUserById,
+    updateUser,
+    deleteUser,
+    assignRole
+};
