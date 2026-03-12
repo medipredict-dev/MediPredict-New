@@ -97,8 +97,8 @@ const PredictionsPage = () => {
     const filteredPredictions = predictions.filter(pred => {
         const playerName = pred.player?.name || 'Unknown';
         const playerID = pred.player?._id || pred.player || '';
-        return playerName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-               playerID.toString().toLowerCase().includes(searchTerm.toLowerCase());
+        return playerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            playerID.toString().toLowerCase().includes(searchTerm.toLowerCase());
     });
 
     const handleInputChange = (e) => {
@@ -213,7 +213,7 @@ const PredictionsPage = () => {
                     </div>
                     {/* Tooltip or small badge for model status */}
                     <div style={{ padding: '0.4rem 0.8rem', borderRadius: '20px', background: 'rgba(12, 232, 141, 0.1)', border: `1px solid ${theme.primary}`, fontSize: '0.75rem', color: theme.primary }}>
-                        Model: Random Forest + Gemini Explanation
+                        Model: Random Forest + AI Explanation
                     </div>
                 </header>
 
@@ -340,7 +340,7 @@ const PredictionsPage = () => {
                                     <tbody>
                                         {filteredPredictions.map(pred => (
                                             <React.Fragment key={pred._id}>
-                                                <tr 
+                                                <tr
                                                     style={{ borderBottom: `1px solid ${theme.border}`, transition: 'background 0.2s', cursor: 'pointer' }}
                                                     onClick={() => setExpandedId(expandedId === pred._id ? null : pred._id)}
                                                     onMouseOver={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
@@ -349,14 +349,14 @@ const PredictionsPage = () => {
                                                     <td style={{ padding: '1rem 0.5rem' }}>
                                                         <div style={{ fontWeight: '600', color: theme.textMain }}>
                                                             {/* Try to get name from populated object, else fallback to searching in players list */}
-                                                            {pred.player?.name || 
-                                                             players.find(p => p._id === String(pred.player?._id || pred.player))?.name || 
-                                                             'Unknown Player'}
+                                                            {pred.player?.name ||
+                                                                players.find(p => p._id === String(pred.player?._id || pred.player))?.name ||
+                                                                'Unknown Player'}
                                                         </div>
                                                         <div style={{ fontSize: '0.8rem', color: theme.textMuted, marginTop: '0.2rem' }}>
                                                             {(() => {
-                                                                const inj = pred.injury?.injuryType 
-                                                                    ? pred.injury 
+                                                                const inj = pred.injury?.injuryType
+                                                                    ? pred.injury
                                                                     : injuries.find(i => i._id === String(pred.injury?._id || pred.injury));
                                                                 return inj ? `${inj.injuryType} - ${inj.bodyPart}` : '-';
                                                             })()}
@@ -387,15 +387,15 @@ const PredictionsPage = () => {
                                                     </td>
                                                     <td style={{ padding: '1rem 0.5rem', textAlign: 'center' }}>
                                                         <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
-                                                            <button 
-                                                                onClick={(e) => { e.stopPropagation(); handleEdit(pred); }} 
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); handleEdit(pred); }}
                                                                 title="Edit"
                                                                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: theme.textMuted }}
                                                             >
                                                                 <Edit size={16} />
                                                             </button>
-                                                            <button 
-                                                                onClick={(e) => { e.stopPropagation(); handleDelete(pred._id); }} 
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); handleDelete(pred._id); }}
                                                                 title="Delete"
                                                                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: theme.textMuted }}
                                                             >
@@ -408,10 +408,10 @@ const PredictionsPage = () => {
                                                 {expandedId === pred._id && (
                                                     <tr>
                                                         <td colSpan="5" style={{ padding: '0 0.5rem 1rem 0.5rem', backgroundColor: 'rgba(12, 232, 141, 0.03)' }}>
-                                                            <div style={{ 
-                                                                padding: '1.25rem', 
-                                                                borderRadius: '8px', 
-                                                                border: `1px dashed ${theme.primary}`, 
+                                                            <div style={{
+                                                                padding: '1.25rem',
+                                                                borderRadius: '8px',
+                                                                border: `1px dashed ${theme.primary}`,
                                                                 marginTop: '0.5rem',
                                                                 fontSize: '0.9rem',
                                                                 lineHeight: '1.6',
@@ -423,7 +423,7 @@ const PredictionsPage = () => {
                                                                 </div>
                                                                 {pred.explanation || "No detailed explanation available for this record."}
                                                                 <div style={{ marginTop: '0.75rem', fontSize: '0.75rem', color: theme.textMuted, fontStyle: 'italic' }}>
-                                                                    * This insight is generated by the AI Explanation Layer (Gemini-2.0-Flash) based on model metrics.
+                                                                    * This insight is generated by the AI Explanation Layer after analyzing the Random Forest model metrics.
                                                                 </div>
                                                             </div>
                                                         </td>

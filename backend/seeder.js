@@ -3,6 +3,9 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 const User = require('./models/User');
 const Role = require('./models/Role');
+const Prediction = require('./models/Prediction');
+const Injury = require('./models/Injury');
+const PlayerProfile = require('./models/PlayerProfile');
 const connectDB = require('./config/db');
 
 dotenv.config();
@@ -12,6 +15,9 @@ const importData = async () => {
     try {
         await Role.deleteMany();
         await User.deleteMany();
+        await Prediction.deleteMany();
+        await Injury.deleteMany();
+        await PlayerProfile.deleteMany();
 
         const roles = [
             {
@@ -89,7 +95,25 @@ const importData = async () => {
             }
         ];
 
-        await User.create(users);
+        const createdUsers = await User.create(users);
+
+        const playerProfiles = createdUsers
+            .filter(u => u.roles.includes(playerRole._id))
+            .map(player => ({
+                userId: player._id,
+                dateOfBirth: new Date('1995-05-15'),
+                nationality: 'USA',
+                height: 180 + Math.floor(Math.random() * 10),
+                weight: 75 + Math.floor(Math.random() * 10),
+                preferredFoot: 'Right',
+                playingRole: player.position || 'Forward',
+                experienceYears: 5 + Math.floor(Math.random() * 5),
+                pastInjuries: ['Minor Sprain']
+            }));
+
+        if (playerProfiles.length > 0) {
+            await PlayerProfile.insertMany(playerProfiles);
+        }
 
         console.log('Data Imported!'.green.inverse);
         process.exit();
@@ -103,6 +127,9 @@ const destroyData = async () => {
     try {
         await Role.deleteMany();
         await User.deleteMany();
+        await Prediction.deleteMany();
+        await Injury.deleteMany();
+        await PlayerProfile.deleteMany();
 
         console.log('Data Destroyed!'.red.inverse);
         process.exit();
