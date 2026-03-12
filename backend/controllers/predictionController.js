@@ -68,7 +68,7 @@ const createPrediction = async (req, res) => {
                 training_intensity: 0.5, // Default or fetch from profile if available
                 injury_type: injuryDetails.injuryType,
                 severity: injuryDetails.severity
-            });
+            }, { timeout: 8000 }); // Adding an 8 second timeout here!
             
             aiPrediction = mlResponse.data;
             mlSuccess = true;
